@@ -261,7 +261,7 @@ function generateProductListHtml(productos, username) {
                 <header class="mb-6 border-b pb-4 flex justify-between items-center">
                     <h1 class="text-3xl font-extrabold text-blue-700">🛒 Gestión de Inventario</h1>
                     <div class="flex items-center space-x-4">
-                        <span class="text-gray-700">Bienvenido, <span class="font-bold text-blue-700">${username}</span></span>
+                        <span class="text-gray-700">Bienvenidos, <span class="font-bold text-blue-700">${username}</span></span>
                         <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition duration-150 shadow-md">Cerrar Sesión</a>
                     </div>
                 </header>
