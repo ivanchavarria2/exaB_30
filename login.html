@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión ✨</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            /* Fondo con gradiente más atractivo */
+            background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+            color: #333;
+        }
+
+        /* Caja del formulario */
+        .login-box {
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95); /* Fondo blanco semitransparente */
+            border-radius: 15px; /* Bordes más redondeados */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra más profunda */
+            width: 100%;
+            max-width: 380px; /* Ancho máximo definido */
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .login-box:hover {
+            transform: translateY(-5px); /* Pequeño levantamiento al pasar el ratón */
+        }
+
+        /* Título */
+        h2 {
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 1.8em;
+            border-bottom: 2px solid #9face6;
+            padding-bottom: 10px;
+        }
+
+        /* Etiquetas */
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        /* Campos de entrada */
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 20px); /* Ajuste para el padding */
+            padding: 12px 10px;
+            margin: 5px 0 20px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 8px; /* Bordes más suaves */
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #9face6; /* Resaltar al enfocar */
+            outline: none;
+            box-shadow: 0 0 5px rgba(159, 172, 230, 0.5);
+        }
+
+        /* Botón */
+        button {
+            background-color: #5cb85c; /* Color primario verde */
+            color: white;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #4cae4c; /* Tono más oscuro al pasar el ratón */
+        }
+
+        button:active {
+            transform: scale(0.98); /* Efecto de "clic" */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Bienvenido 👋</h2>
+        <form action="/login" method="POST">
+            <label for="username">Nombre de Usuario</label>
+            <input type="text" id="username" name="username" required placeholder="Ingresa tu usuario">
+            
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" required placeholder="Ingresa tu contraseña">
+            
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+</body>
+</html>
