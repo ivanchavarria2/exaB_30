@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingresar Producto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-2xl p-8 border border-gray-200">
+        <h1 class="text-3xl font-extrabold text-indigo-600 mb-6 text-center border-b pb-3">
+            ➕ Ingresar Nuevo Producto
+        </h1>
+
+        <!-- El formulario POST apunta a la ruta que creamos en index.js -->
+        <form action="/productos/ingresar" method="POST" class="space-y-6">
+            
+            <div>
+                <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Producto</label>
+                <input type="text" id="nombre" name="nombre" required 
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" 
+                       placeholder="Ej: Laptop Gamer X500">
+            </div>
+
+            <div>
+                <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="3" required 
+                          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                          placeholder="Características principales del producto..."></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label for="precio" class="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
+                    <input type="number" id="precio" name="precio" step="0.01" required 
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" 
+                           placeholder="999.99">
+                </div>
+                <div>
+                    <label for="stock" class="block text-sm font-medium text-gray-700 mb-1">Stock (Cantidad)</label>
+                    <input type="number" id="stock" name="stock" required 
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" 
+                           placeholder="50">
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-4">
+                <a href="/productos/listar" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition duration-150">← Volver al Listado</a>
+                <button type="submit" 
+                        class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150">
+                    Guardar Producto
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
