@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import pkg from 'pg';
-import bcrypt from 'bcrypt'; // Importamos bcrypt para el manejo seguro de contraseñas
+import bcrypt from 'bcrypt'; // Para el manejo seguro de contraseñas
 
 const { Client } = pkg;
 
@@ -13,41 +13,38 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const port = 3000;
+
+// --- CORRECCIÓN CRÍTICA DEL PUERTO ---
+// Usa process.env.PORT (para Render) o 3000 (para desarrollo local)
+const PORT = process.env.PORT || 3000; 
+// --------------------------------------
 
 // --- CONFIGURACIÓN DE LA BASE DE DATOS (RENDER) ---
-// ⚠️ CORRECCIÓN CLAVE: Se usó la URL de conexión estándar 'postgres://...'
-// Esta URL se construyó a partir de los datos de conexión que proporcionaste.
+// La URL DEBE estar configurada como una variable de entorno en Render
 const DB_URL = process.env.DATABASE_URL || "postgres://peli20_admin:hkwBh51g0UmpEuwNBt2M6ezVDwLmmZCL@dpg-d4jr8aje5dus73epv70g-a.oregon-postgres.render.com/peli20_db";
 
 const client = new Client({
     connectionString: DB_URL,
-    // La configuración SSL es necesaria cuando se conecta a la BD de Render
+    // La configuración SSL es necesaria para Render
     ssl: {
         rejectUnauthorized: false
     }
 });
-
-// Conecta a la base de datos una vez al inicio
-client.connect()
-    .then(() => console.log('✅ Conexión exitosa a PostgreSQL.'))
-    .catch(err => console.error('❌ Error al conectar a PostgreSQL:', err.stack));
 // ---------------------------------------------------
-
 
 // Middleware: Permite a Express leer los datos enviados desde un formulario HTML
 app.use(express.urlencoded({ extended: true }));
 
 // 1. Ruta GET para mostrar el formulario de login
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'login.html'));
+    // Asegúrate de que 'login.html' exista en el mismo directorio
+    res.sendFile(path.join(__dirname, 'login.html')); 
 });
 
 // 2. Ruta POST para procesar el envío del formulario de login
-// Hacemos la función ASÍNCRONA para poder usar 'await'
 app.post('/login', async (req, res) => {
-    const username = req.body.username; // Usaremos esto para el campo 'correo'
-    const password = req.body.password; // La contraseña ingresada por el usuario
+    const username = req.body.username; 
+    const password = req.body.password; 
 
     console.log(`Intento de login con Correo: ${username}`);
     
@@ -55,10 +52,6 @@ app.post('/login', async (req, res) => {
     const queryText = 'SELECT contrasena FROM usuarios WHERE correo = $1';
 
     try {
-        // Asegúrate de que el cliente esté conectado antes de hacer la consulta.
-        // Si la conexión falla al inicio, este código podría ejecutarse antes de que 
-        // se maneje el error, causando el segundo error 'Connection terminated unexpectedly'.
-        
         const result = await client.query(queryText, [username]);
 
         if (result.rows.length === 0) {
@@ -84,7 +77,20 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Inicia el servidor
-app.listen(port, () => {
-    console.log(`Servidor de login corriendo en http://localhost:${port}`);
-});
+// --- MEJORA DE ROBUSTEZ: Conexión y luego inicio del servidor ---
+// Conecta a la base de datos y luego inicia el servidor
+client.connect()
+    .then(() => {
+        console.log('✅ Conexión exitosa a PostgreSQL.');
+        
+        // Inicia el servidor solo después de la conexión a la BD
+        app.listen(PORT, () => {
+            console.log(`Servidor de login corriendo en http://localhost:${PORT}`);
+        });
+
+    })
+    .catch(err => {
+        console.error('❌ Error al conectar a PostgreSQL. La aplicación no iniciará:', err.stack);
+        // Si no se puede conectar a la BD, la aplicación no debería arrancar
+        process.exit(1); 
+    });
